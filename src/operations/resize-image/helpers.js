@@ -1,0 +1,51 @@
+import { decode, dimsOf, drawToCanvas, canvasToBlob } from '../../lib/imageCanvas.js'
+import { formatFromType, outName } from '../../lib/imageFormat.js'
+
+/**
+ * @param {File} file
+ * @param {{mode:'dimensions'|'percent', width:number, height:number, percent:number,
+ *          keepAspect:boolean, format:'keep'|'jpeg'|'png'|'webp', quality:number}} opts
+ */
+export async function resizeImage(file, opts, onProgress) {
+  const { mode = 'dimensions', width, height, percent = 100, keepAspect = true, format = 'keep', quality = 0.9 } = opts || {}
+  onProgress?.(0.2, 'Decoding image…')
+  const bitmap = await decode(file)
+  const src = dimsOf(bitmap)
+
+  let targetW, targetH
+  if (mode === 'percent') {
+    targetW = Math.round((src.width * percent) / 100)
+    targetH = Math.round((src.height * percent) / 100)
+  } else {
+    const w = Number(width) || 0
+    const h = Number(height) || 0
+    if (keepAspect) {
+      if (w && !h) {
+        targetW = w
+        targetH = Math.round((src.height / src.width) * w)
+      } else if (h && !w) {
+        targetH = h
+        targetW = Math.round((src.width / src.height) * h)
+      } else if (w && h) {
+        const scale = Math.min(w / src.width, h / src.height)
+        targetW = Math.round(src.width * scale)
+        targetH = Math.round(src.height * scale)
+      } else {
+        throw new Error('Enter a width and/or height.')
+      }
+    } else {
+      if (!w || !h) throw new Error('Enter both width and height, or keep aspect ratio.')
+      targetW = w
+      targetH = h
+    }
+  }
+  if (targetW < 1 || targetH < 1) throw new Error('Resulting size is too small.')
+
+  onProgress?.(0.6, 'Resizing…')
+  const fmt = format === 'keep' ? formatFromType(file.type) : format
+  const canvas = drawToCanvas(bitmap, { width: targetW, height: targetH, background: fmt === 'jpeg' ? '#ffffff' : undefined })
+  const blob = await canvasToBlob(canvas, fmt, quality)
+  bitmap.close?.()
+  onProgress?.(1, 'Done')
+  return { blob, filename: outName(file.name, fmt, `-${targetW}x${targetH}`), before: file.size, after: blob.size, width: targetW, height: targetH }
+}
