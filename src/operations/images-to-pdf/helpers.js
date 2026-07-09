@@ -1,0 +1,85 @@
+import { PDFDocument } from 'pdf-lib'
+
+// Page sizes in PDF points (1pt = 1/72 inch).
+export const PAGE_SIZES = {
+  A4: [595.28, 841.89],
+  Letter: [612, 792],
+  Legal: [612, 1008],
+}
+
+// pdf-lib can only embed JPEG and PNG directly. Anything else (WebP, GIF, BMP)
+// is transcoded to JPEG on a canvas first — all in-browser.
+async function embedImage(pdfDoc, file) {
+  const type = (file.type || '').toLowerCase()
+  const buf = await file.arrayBuffer()
+  if (type === 'image/jpeg' || type === 'image/jpg') return pdfDoc.embedJpg(buf)
+  if (type === 'image/png') return pdfDoc.embedPng(buf)
+
+  // Transcode via canvas.
+  let bitmap
+  try {
+    bitmap = await createImageBitmap(new Blob([buf], { type: type || 'image/*' }))
+  } catch {
+    throw new Error(`Unsupported image: ${file.name}. Try JPEG, PNG, or WebP.`)
+  }
+  const canvas = document.createElement('canvas')
+  canvas.width = bitmap.width
+  canvas.height = bitmap.height
+  const ctx = canvas.getContext('2d')
+  // Flatten transparency onto white so JPEG doesn't turn it black.
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, canvas.width, canvas.height)
+  ctx.drawImage(bitmap, 0, 0)
+  bitmap.close?.()
+  const blob = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', 0.92))
+  return pdfDoc.embedJpg(await blob.arrayBuffer())
+}
+
+/**
+ * Combine images into one PDF.
+ * @param {File[]} files
+ * @param {{pageSize:'fit'|'A4'|'Letter'|'Legal', orientation:'auto'|'portrait'|'landscape', margin:number}} opts
+ * @param {(value:number, message:string)=>void} onProgress
+ * @returns {Promise<Blob>}
+ */
+export async function imagesToPdf(files, opts, onProgress) {
+  const { pageSize = 'fit', orientation = 'auto', margin = 0 } = opts || {}
+  if (!files?.length) throw new Error('Add at least one image to begin.')
+
+  const pdfDoc = await PDFDocument.create()
+
+  for (let i = 0; i < files.length; i++) {
+    onProgress?.(i / files.length, `Adding image ${i + 1} of ${files.length}…`)
+    const img = await embedImage(pdfDoc, files[i])
+
+    let pageW, pageH
+    if (pageSize === 'fit') {
+      pageW = img.width + margin * 2
+      pageH = img.height + margin * 2
+    } else {
+      const [a, b] = PAGE_SIZES[pageSize] || PAGE_SIZES.A4
+      const landscape =
+        orientation === 'landscape' ||
+        (orientation === 'auto' && img.width > img.height)
+      ;[pageW, pageH] = landscape ? [b, a] : [a, b]
+    }
+
+    const page = pdfDoc.addPage([pageW, pageH])
+    const availW = pageW - margin * 2
+    const availH = pageH - margin * 2
+    const scale =
+      pageSize === 'fit' ? 1 : Math.min(availW / img.width, availH / img.height, 1)
+    const w = img.width * scale
+    const h = img.height * scale
+    page.drawImage(img, {
+      x: (pageW - w) / 2,
+      y: (pageH - h) / 2,
+      width: w,
+      height: h,
+    })
+  }
+
+  onProgress?.(1, 'Finalizing PDF…')
+  const bytes = await pdfDoc.save()
+  return new Blob([bytes], { type: 'application/pdf' })
+}
