@@ -36,6 +36,22 @@ export default function Sidebar({ activeId, onSelect, onOpenPalette }) {
       </div>
 
       <nav className="flex-1 overflow-y-auto px-2 pb-4" aria-label="Operations">
+        {!query && (
+          <button
+            type="button"
+            onClick={() => onSelect(null)}
+            aria-current={activeId == null ? 'page' : undefined}
+            className={cx(
+              'mb-2 flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-sm transition-colors',
+              activeId == null
+                ? 'bg-brand-50 font-medium text-brand-700 dark:bg-brand-900/30 dark:text-brand-200'
+                : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800',
+            )}
+          >
+            <Icon name="home" className={cx('h-4 w-4 flex-shrink-0', activeId == null ? 'text-brand-600 dark:text-brand-300' : 'text-slate-400')} />
+            <span>Home</span>
+          </button>
+        )}
         {groups.length === 0 && (
           <p className="px-3 py-4 text-sm text-slate-500">No tools match “{query}”.</p>
         )}

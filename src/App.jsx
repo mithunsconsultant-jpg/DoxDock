@@ -6,40 +6,30 @@ import ThemeToggle from './components/ThemeToggle.jsx'
 import Note from './components/Note.jsx'
 import Icon from './components/Icon.jsx'
 import Progress from './components/Progress.jsx'
+import Home from './components/Home.jsx'
 import { useTheme } from './hooks/useTheme.js'
-import { useLocalStorage } from './hooks/useLocalStorage.js'
-import { operations, getOperation } from './registry/registry.js'
+import { getOperation } from './registry/registry.js'
 
-function useHashSelection(defaultId) {
-  const [lastTool, setLastTool] = useLocalStorage('doxdock:lastTool', defaultId)
-  const fromHash = () => {
-    const id = window.location.hash.replace(/^#\/?/, '')
-    return getOperation(id) ? id : null
+// Hash routing. An empty hash (or #/ or #/home) means the Home landing page
+// (activeId === null); #/<id> opens that tool.
+function useHashSelection() {
+  const parse = () => {
+    const raw = window.location.hash.replace(/^#\/?/, '')
+    if (!raw || raw === 'home') return null
+    return getOperation(raw) ? raw : null
   }
-  const [activeId, setActiveId] = useState(() => fromHash() || lastTool || defaultId)
+  const [activeId, setActiveId] = useState(parse)
 
-  const select = useCallback(
-    (id) => {
-      setActiveId(id)
-      setLastTool(id)
-      if (window.location.hash !== `#/${id}`) window.location.hash = `#/${id}`
-    },
-    [setLastTool],
-  )
+  const select = useCallback((id) => {
+    setActiveId(id)
+    const target = id ? `#/${id}` : '#/'
+    if (window.location.hash !== target) window.location.hash = target
+  }, [])
 
   useEffect(() => {
-    const onHash = () => {
-      const id = fromHash()
-      if (id) {
-        setActiveId(id)
-        setLastTool(id)
-      }
-    }
+    const onHash = () => setActiveId(parse())
     window.addEventListener('hashchange', onHash)
-    // Ensure the URL reflects the initial selection.
-    if (!fromHash()) window.location.hash = `#/${activeId}`
     return () => window.removeEventListener('hashchange', onHash)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return [activeId, select]
@@ -47,12 +37,11 @@ function useHashSelection(defaultId) {
 
 export default function App() {
   const [theme, setTheme] = useTheme()
-  const defaultId = operations[0]?.id
-  const [activeId, select] = useHashSelection(defaultId)
+  const [activeId, select] = useHashSelection()
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
-  const activeOp = getOperation(activeId) || operations[0]
+  const activeOp = activeId ? getOperation(activeId) : null
 
   // Global Cmd/Ctrl+K to open the palette.
   useEffect(() => {
@@ -111,7 +100,7 @@ export default function App() {
         >
           <Icon name={mobileNavOpen ? 'x' : 'grid'} className="h-5 w-5" />
         </button>
-        <a href="#/" className="flex items-center gap-2" onClick={() => defaultId && handleSelect(defaultId)}>
+        <a href="#/" className="flex items-center gap-2" onClick={() => handleSelect(null)}>
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-white">
             <Icon name="layers" className="h-5 w-5" />
           </span>
@@ -170,8 +159,8 @@ export default function App() {
 
         {/* Main */}
         <main className="min-w-0 flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
-            {activeOp && (
+          <div className={`mx-auto px-4 py-6 sm:px-6 sm:py-8 ${activeOp ? 'max-w-3xl' : 'max-w-6xl'}`}>
+            {activeOp ? (
               <>
                 <div className="mb-6">
                   <div className="flex items-center gap-3">
@@ -199,6 +188,8 @@ export default function App() {
                   {Component && <Component key={activeOp.id} />}
                 </Suspense>
               </>
+            ) : (
+              <Home onSelect={handleSelect} onOpenPalette={() => setPaletteOpen(true)} />
             )}
           </div>
 

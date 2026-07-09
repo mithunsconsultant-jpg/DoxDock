@@ -11,12 +11,23 @@ export default function CommandPalette({ open, onClose, onSelect }) {
   const results = searchOperations(query)
 
   useEffect(() => {
-    if (open) {
-      setQuery('')
-      setActive(0)
-      // focus after paint
-      requestAnimationFrame(() => inputRef.current?.focus())
+    if (!open) return
+    setQuery('')
+    setActive(0)
+    // Focus reliably: the overlay/trigger can hold focus, and rAF alone
+    // sometimes fires before the input is focusable. Retry across a few frames.
+    let tries = 0
+    const focus = () => {
+      const el = inputRef.current
+      if (el) {
+        el.focus()
+        el.select?.()
+      }
+      if ((!el || document.activeElement !== el) && tries++ < 5) {
+        setTimeout(focus, 30)
+      }
     }
+    focus()
   }, [open])
 
   useEffect(() => setActive(0), [query])
@@ -62,11 +73,12 @@ export default function CommandPalette({ open, onClose, onSelect }) {
           <Icon name="search" className="h-4 w-4 text-slate-400" />
           <input
             ref={inputRef}
+            autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={onKeyDown}
             placeholder="Jump to a tool…"
-            className="w-full bg-transparent py-3.5 text-sm outline-none placeholder:text-slate-400"
+            className="w-full bg-transparent py-3.5 text-sm text-slate-900 outline-none placeholder:text-slate-400 dark:text-slate-100"
           />
         </div>
         <ul className="max-h-80 overflow-y-auto p-2">
