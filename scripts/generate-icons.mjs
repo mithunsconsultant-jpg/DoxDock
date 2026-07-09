@@ -63,10 +63,11 @@ const hex = (h) => [
   parseInt(h.slice(3, 5), 16),
   parseInt(h.slice(5, 7), 16),
 ]
-const BG = hex('#4f46e5')
-const BG2 = hex('#4338ca')
-const PAGE = hex('#ffffff')
-const LINE = hex('#a5b4fc')
+const BG = hex('#0e2a24') // aurora: deep teal-green (top of gradient)
+const BG2 = hex('#0b1018') // deep slate (bottom)
+const PAGE = hex('#e8f1f8') // cool near-white page
+const LINE = hex('#6ee7a8') // mint lines
+const FOLD = hex('#5ea9ff') // sky folded corner
 
 function draw(size) {
   const buf = Buffer.alloc(size * size * 4)
@@ -112,7 +113,7 @@ function draw(size) {
     for (let x = px + pw - fold; x < px + pw; x++) {
       const rx = px + pw - x
       const ry = y - py
-      if (ry + rx >= fold && ry < fold && rx < fold) set(x, y, LINE)
+      if (ry + rx >= fold && ry < fold && rx < fold) set(x, y, FOLD)
     }
   }
   // text lines
@@ -134,10 +135,12 @@ writeFileSync(join(OUT, 'apple-touch-icon-180.png'), draw(180))
 
 // SVG favicon (crisp at any size, fully local)
 const favicon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="22" fill="#4f46e5"/>
-  <path d="M32 22h26l12 12v44a4 4 0 0 1-4 4H32a4 4 0 0 1-4-4V26a4 4 0 0 1 4-4z" fill="#fff"/>
-  <path d="M58 22l12 12H58z" fill="#a5b4fc"/>
-  <g fill="#a5b4fc"><rect x="37" y="46" width="26" height="4" rx="2"/><rect x="37" y="56" width="26" height="4" rx="2"/><rect x="37" y="66" width="18" height="4" rx="2"/></g>
+  <rect width="100" height="100" rx="24" fill="#0d141f"/>
+  <g fill="none" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M50 20 80 36 50 52 20 36 50 20Z" stroke="#6ee7a8"/>
+    <path d="M20 50 50 66 80 50" stroke="#5ea9ff"/>
+    <path d="M20 64 50 80 80 64" stroke="#6ee7a8"/>
+  </g>
 </svg>`
 writeFileSync(join(OUT, 'favicon.svg'), favicon)
 

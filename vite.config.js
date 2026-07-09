@@ -22,8 +22,8 @@ export default defineConfig({
         short_name: 'DoxDock',
         description:
           'Offline-first document & image utilities. Nothing you upload ever leaves your machine.',
-        theme_color: '#4f46e5',
-        background_color: '#0b0f19',
+        theme_color: '#0b1018',
+        background_color: '#0b1018',
         display: 'standalone',
         start_url: '.',
         scope: '.',
