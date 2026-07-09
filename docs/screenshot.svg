@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <radialGradient id="glowMint" cx="12%" cy="0%" r="60%">
+      <stop offset="0%" stop-color="#6ee7a8" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#6ee7a8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowSky" cx="98%" cy="0%" r="60%">
+      <stop offset="0%" stop-color="#5ea9ff" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#5ea9ff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="round"><rect x="8" y="8" width="1584" height="984" rx="18"/></clipPath>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="1000" fill="#05070c"/>
+  <g clip-path="url(#round)">
+    <rect x="8" y="8" width="1584" height="984" fill="#0b1018"/>
+    <rect x="8" y="8" width="1584" height="984" fill="url(#glowMint)"/>
+    <rect x="8" y="8" width="1584" height="984" fill="url(#glowSky)"/>
+
+    <!-- top bar -->
+    <line x1="8" y1="82" x2="1592" y2="82" stroke="#ffffff" stroke-opacity="0.08"/>
+    <rect x="40" y="30" width="34" height="34" rx="9" fill="#059669"/>
+    <g stroke="#eafff5" stroke-width="2.4" fill="none" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M57 39 68 45 57 51 46 45 57 39Z"/>
+      <path d="M46 50 57 56 68 50"/>
+    </g>
+    <text x="88" y="53" fill="#f2f6fc" font-size="21" font-weight="600" letter-spacing="-0.3">DoxDock</text>
+
+    <!-- privacy badge -->
+    <rect x="192" y="34" width="182" height="27" rx="13.5" fill="#10b981" fill-opacity="0.12" stroke="#10b981" stroke-opacity="0.35"/>
+    <circle cx="209" cy="47.5" r="6" fill="none" stroke="#6ee7a8" stroke-width="2"/>
+    <path d="M206 47.5 208 49.5 212 45.5" stroke="#6ee7a8" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="224" y="52" fill="#7ff0b4" font-size="13" font-weight="500">Runs entirely in your browser</text>
+
+    <!-- right side nav -->
+    <path d="M1372 40 a12 12 0 0 1 12 -8 a12 12 0 0 1 12 8" fill="none"/>
+    <path d="M1378 34 v6 a6 6 0 0 0 12 0 v-6" fill="none" stroke="#6ee7a8" stroke-width="2" stroke-linecap="round"/>
+    <path d="M1384 46 c0 4 0 6 0 6 M1378 40 a6 6 0 0 1 12 0" fill="none" stroke="#6ee7a8" stroke-width="2"/>
+    <text x="1404" y="52" fill="#c7d2e0" font-size="14">Ideology</text>
+    <rect x="1486" y="32" width="106" height="0"/>
+    <rect x="1486" y="33" width="102" height="30" rx="8" fill="none" stroke="#ffffff" stroke-opacity="0.12"/>
+    <circle cx="1507" cy="48" r="7" fill="none" stroke="#8ea0b6" stroke-width="1.6"/>
+    <path d="M1537 43 a6 6 0 1 0 5 8 7 7 0 0 1 -5 -8Z" fill="#6ee7a8"/>
+    <rect x="1556" y="40" width="16" height="12" rx="2" fill="none" stroke="#8ea0b6" stroke-width="1.6"/>
+
+    <!-- sidebar -->
+    <rect x="8" y="82" width="300" height="910" fill="#0c131e"/>
+    <line x1="308" y1="82" x2="308" y2="992" stroke="#ffffff" stroke-opacity="0.07"/>
+    <rect x="28" y="106" width="260" height="40" rx="9" fill="#0f1826" stroke="#ffffff" stroke-opacity="0.1"/>
+    <circle cx="49" cy="126" r="6" fill="none" stroke="#8ea0b6" stroke-width="1.6"/>
+    <line x1="53" y1="130" x2="57" y2="134" stroke="#8ea0b6" stroke-width="1.6" stroke-linecap="round"/>
+    <text x="66" y="131" fill="#7c8aa0" font-size="14">Search tools…</text>
+    <text x="269" y="131" fill="#5f6b7e" font-size="12" font-family="ui-monospace, monospace">⌘K</text>
+
+    <!-- category PDF -->
+    <text x="28" y="182" fill="#6b7889" font-size="12" font-weight="600" letter-spacing="1.4">PDF</text>
+    <g>
+      <rect x="20" y="196" width="276" height="40" rx="9" fill="#10b981" fill-opacity="0.14"/>
+      <text x="56" y="221" fill="#a7f3d0" font-size="15" font-weight="500">Images → PDF</text>
+      <text x="56" y="263" fill="#c0ccdb" font-size="15">PDF → Images</text>
+      <text x="56" y="305" fill="#c0ccdb" font-size="15">Merge PDFs</text>
+      <text x="56" y="347" fill="#c0ccdb" font-size="15">Split PDF</text>
+      <text x="56" y="389" fill="#c0ccdb" font-size="15">Rotate PDF</text>
+      <text x="56" y="431" fill="#c0ccdb" font-size="15">Organize PDF</text>
+      <text x="56" y="473" fill="#c0ccdb" font-size="15">Compress PDF</text>
+      <text x="56" y="515" fill="#c0ccdb" font-size="15">Watermark PDF</text>
+    </g>
+    <text x="28" y="566" fill="#6b7889" font-size="12" font-weight="600" letter-spacing="1.4">IMAGE</text>
+    <text x="56" y="605" fill="#c0ccdb" font-size="15">Compress Image</text>
+    <text x="56" y="647" fill="#c0ccdb" font-size="15">Resize Image</text>
+    <text x="56" y="689" fill="#c0ccdb" font-size="15">Crop Image</text>
+    <text x="28" y="740" fill="#6b7889" font-size="12" font-weight="600" letter-spacing="1.4">CONVERT</text>
+    <text x="56" y="779" fill="#c0ccdb" font-size="15">Markdown → PDF</text>
+    <text x="56" y="821" fill="#c0ccdb" font-size="15">HTML → PDF</text>
+    <!-- little icons for a few sidebar items -->
+    <g stroke="#6ee7a8" stroke-width="1.8" fill="none" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="32" y="209" width="15" height="15" rx="2"/><circle cx="36.5" cy="213.5" r="1.6"/><path d="M47 219l-4-4-8 9"/>
+    </g>
+
+    <!-- main content -->
+    <g transform="translate(356, 128)">
+      <rect x="0" y="0" width="52" height="52" rx="13" fill="#10b981" fill-opacity="0.16"/>
+      <g stroke="#6ee7a8" stroke-width="2.2" fill="none" stroke-linejoin="round" stroke-linecap="round" transform="translate(14,14)">
+        <rect x="0" y="0" width="22" height="22" rx="3"/><circle cx="6.5" cy="6.5" r="2"/><path d="M22 15l-6-6-11 13"/>
+      </g>
+      <text x="70" y="22" fill="#f4f7fc" font-size="30" font-weight="640" letter-spacing="-0.5">Images → PDF</text>
+      <text x="72" y="50" fill="#93a2b6" font-size="16">Combine multiple images into a single PDF, in your chosen order.</text>
+
+      <!-- pill -->
+      <rect x="70" y="70" width="150" height="30" rx="15" fill="#10b981" fill-opacity="0.12" stroke="#10b981" stroke-opacity="0.35"/>
+      <circle cx="88" cy="85" r="6.5" fill="none" stroke="#6ee7a8" stroke-width="1.8"/>
+      <path d="M85 85 87 87 91 83" stroke="#6ee7a8" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="103" y="90" fill="#7ff0b4" font-size="14" font-weight="500">100% local</text>
+    </g>
+
+    <!-- dropzone -->
+    <rect x="356" y="260" width="1180" height="360" rx="16" fill="#0e1622" fill-opacity="0.6" stroke="#5ea9ff" stroke-opacity="0.28" stroke-width="2" stroke-dasharray="9 8"/>
+    <circle cx="946" cy="400" r="34" fill="#12203055" stroke="#ffffff" stroke-opacity="0.08"/>
+    <g stroke="#8ea0b6" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(946,400)">
+      <path d="M13 5 v-14 M6 -3 l7 -7 7 7 M-14 6 v6 a3 3 0 0 0 3 3 h44 a3 3 0 0 0 3 -3 v-6" transform="translate(-12,-2)"/>
+    </g>
+    <text x="946" y="482" fill="#dbe3ee" font-size="22" font-weight="500" text-anchor="middle">Drop images here or click to browse</text>
+    <text x="946" y="514" fill="#8ea0b6" font-size="15" text-anchor="middle">JPEG, PNG, WebP, GIF, BMP — reorder them below after adding</text>
+
+    <!-- options card hint -->
+    <rect x="356" y="648" width="1180" height="150" rx="14" fill="#0f1826" fill-opacity="0.6" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="384" y="690" fill="#c9d4e2" font-size="15" font-weight="500">Options</text>
+    <g font-size="13" fill="#8ea0b6">
+      <text x="384" y="726">Page size</text>
+      <text x="776" y="726">Orientation</text>
+      <text x="1168" y="726">Margin (pt)</text>
+    </g>
+    <rect x="384" y="738" width="360" height="38" rx="9" fill="#0b1420" stroke="#ffffff" stroke-opacity="0.1"/>
+    <text x="404" y="762" fill="#e6ecf5" font-size="14">Fit to image</text>
+    <rect x="776" y="738" width="360" height="38" rx="9" fill="#0b1420" stroke="#ffffff" stroke-opacity="0.1"/>
+    <text x="796" y="762" fill="#e6ecf5" font-size="14">Auto (per image)</text>
+    <rect x="1168" y="738" width="340" height="38" rx="9" fill="#0b1420" stroke="#ffffff" stroke-opacity="0.1"/>
+    <text x="1188" y="762" fill="#e6ecf5" font-size="14">0</text>
+
+    <!-- primary button -->
+    <rect x="356" y="828" width="176" height="46" rx="10" fill="#059669"/>
+    <g stroke="#eafff5" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(384,851)">
+      <path d="M0 -8 h12 l4 4 v10 a1 1 0 0 1 -1 1 h-14 a1 1 0 0 1 -1 -1 Z"/>
+    </g>
+    <text x="416" y="857" fill="#eafff5" font-size="16" font-weight="600">Create PDF</text>
+  </g>
+  <rect x="8" y="8" width="1584" height="984" rx="18" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
+</svg>

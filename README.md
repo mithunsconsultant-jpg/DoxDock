@@ -8,8 +8,7 @@ It exists for the moment you have a sensitive PDF — a contract, a payslip, a m
 
 > **Runs entirely in your browser — no uploads, no network.**
 
-![DoxDock screenshot placeholder](docs/screenshot.png)
-<!-- TODO: drop a real screenshot/GIF at docs/screenshot.png -->
+![DoxDock — the Aurora UI running Images → PDF, entirely in the browser](docs/screenshot.svg)
 
 ---
 
