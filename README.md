@@ -8,8 +8,6 @@ It exists for the moment you have a sensitive PDF — a contract, a payslip, a m
 
 > **Runs entirely in your browser — no uploads, no network.**
 
-![DoxDock — the Aurora UI running Images → PDF, entirely in the browser](docs/screenshot.svg)
-
 ---
 
 ## Why it's "provably local" — and how to verify
