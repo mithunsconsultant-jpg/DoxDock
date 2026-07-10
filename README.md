@@ -59,6 +59,33 @@ npm run preview
 
 ---
 
+## Run with Docker
+
+DoxDock ships as a static site, so the container just serves the built files with nginx — it makes **no outbound calls** and can run completely offline / air-gapped. Perfect for self-hosting on your own machine or network.
+
+**With Docker:**
+
+```bash
+# build the image
+docker build -t doxdock .
+
+# run it (serves on http://localhost:8080)
+docker run --rm -p 8080:80 doxdock
+```
+
+**With Docker Compose:**
+
+```bash
+docker compose up --build
+# then open http://localhost:8080
+```
+
+The image is a multi-stage build (Node builds the site, nginx serves it), so the final image is tiny and contains only static assets — no Node runtime, no source. To use a different port, change the left-hand number, e.g. `-p 3000:80` (or edit `docker-compose.yml`).
+
+> Self-hosting keeps the "provably local" guarantee intact: the container serves files and nothing else. You can disconnect it from the internet entirely and every tool still works.
+
+---
+
 ## Supported operations
 
 Operations whose client-side result has inherent limits are labelled honestly in the UI **and** here.
