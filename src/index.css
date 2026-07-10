@@ -88,3 +88,26 @@
 ::-webkit-scrollbar-thumb {
   @apply rounded-full bg-slate-300 dark:bg-slate-700;
 }
+
+/* Shine sweep for the OSCode navbar badge. Both ends sit fully off-screen, so
+   the loop reset is invisible (seamless). */
+@keyframes oscode-shine {
+  0% {
+    transform: translateX(-140%) skewX(-20deg);
+  }
+  40% {
+    transform: translateX(460%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(460%) skewX(-20deg);
+  }
+}
+.oscode-shine {
+  animation: oscode-shine 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .oscode-shine {
+    animation: none;
+  }
+}

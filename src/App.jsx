@@ -7,6 +7,7 @@ import Note from './components/Note.jsx'
 import Icon from './components/Icon.jsx'
 import Progress from './components/Progress.jsx'
 import Home from './components/Home.jsx'
+import OSCodeNavBadge from './components/OSCodeNavBadge.jsx'
 import { useTheme } from './hooks/useTheme.js'
 import { useLocalStorage } from './hooks/useLocalStorage.js'
 import { getOperation } from './registry/registry.js'
@@ -122,6 +123,7 @@ export default function App() {
           <PrivacyBadge />
         </div>
         <div className="ml-auto flex items-center gap-2">
+          <OSCodeNavBadge />
           <a
             href="ideology.html"
             target="_blank"
@@ -211,10 +213,22 @@ export default function App() {
             )}
           </div>
 
-          <footer className="mx-auto max-w-3xl px-4 pb-10 pt-4 text-xs text-slate-400 sm:px-6">
+          <footer className="mx-auto max-w-3xl space-y-2 px-4 pb-10 pt-4 text-xs text-slate-400 sm:px-6">
             <p>
               DoxDock processes everything on your device. No file you open is ever uploaded — the
               app makes zero network requests at runtime. Open source under the MIT license.
+            </p>
+            <p className="flex items-center gap-1.5">
+              Supported by
+              <a
+                href="https://github.com/OSCode-Community"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 font-medium text-slate-500 hover:text-brand-600 dark:text-slate-300 dark:hover:text-brand-300"
+              >
+                <img src="/oscode.png" alt="" className="h-4 w-4 rounded-sm" />
+                OSCode Community
+              </a>
             </p>
           </footer>
         </main>

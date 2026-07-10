@@ -70,7 +70,7 @@
       .brand { font-weight: 600; letter-spacing: -0.01em; font-size: 18px; }
       .brand b { color: var(--mint); font-weight: 600; }
       .back {
-        margin-left: auto;
+        margin-left: 12px;
         font-family: var(--mono);
         font-size: 12px;
         letter-spacing: 0.06em;
@@ -81,6 +81,50 @@
         border-radius: 8px;
       }
       .back:hover { color: var(--mint); border-color: rgba(110, 231, 168, 0.4); }
+      .oscode-badge {
+        margin-left: auto;
+        position: relative;
+        overflow: hidden;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-family: var(--sans);
+        font-size: 12px;
+        font-weight: 500;
+        text-decoration: none;
+        color: #7fe9ff;
+        background: rgba(0, 201, 255, 0.12);
+        border: 1px solid rgba(0, 201, 255, 0.4);
+        border-radius: 999px;
+        padding: 5px 10px;
+      }
+      .oscode-badge:hover { background: rgba(0, 201, 255, 0.2); }
+      .oscode-badge img { width: 16px; height: 16px; border-radius: 3px; display: block; }
+      .oscode-badge .spark { animation: spark-pulse 2s ease-in-out infinite; }
+      .oscode-badge .shine {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 40px;
+        pointer-events: none;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+        animation: oscode-shine 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      @keyframes oscode-shine {
+        0% { transform: translateX(-140%) skewX(-20deg); }
+        40%, 100% { transform: translateX(460%) skewX(-20deg); }
+      }
+      @keyframes spark-pulse {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .oscode-badge .shine, .oscode-badge .spark { animation: none; }
+      }
+      @media (max-width: 520px) {
+        .oscode-badge .label { display: none; }
+      }
       .eyebrow {
         font-family: var(--mono);
         font-size: 12px;
@@ -185,6 +229,12 @@
           </svg>
         </span>
         <span class="brand">Dox<b>Dock</b></span>
+        <a class="oscode-badge" href="https://github.com/OSCode-Community" target="_blank" rel="noopener noreferrer" title="DoxDock is supported by OSCode Community">
+          <img src="oscode.png" alt="" />
+          <span class="label">Supported by OSCode</span>
+          <svg class="spark" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00C9FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2" /></svg>
+          <span class="shine" aria-hidden="true"></span>
+        </a>
         <a class="back" href="./">← back to the app</a>
       </div>
 
