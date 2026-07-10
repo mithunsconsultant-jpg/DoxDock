@@ -30,6 +30,34 @@ We persist only **non-sensitive UI state** (your theme and last-used tool) in `l
 
 ---
 
+## Run with Docker
+
+The quickest way to self-host. DoxDock ships as a static site, so the container just serves the built files with nginx — it makes **no outbound calls** and can run completely offline / air-gapped.
+
+**With Docker:**
+
+```bash
+# build the image (--load puts it in your local image store; needed when the
+# active buildx builder uses the docker-container driver)
+docker build --load -t doxdock .
+
+# run it (serves on http://localhost:8791)
+docker run --rm -p 8791:80 doxdock
+```
+
+**With Docker Compose:**
+
+```bash
+docker compose up --build
+# then open http://localhost:8791
+```
+
+The image is a multi-stage build (Node builds the site, nginx serves it), so the final image is tiny and contains only static assets — no Node runtime, no source. The app is published on host port **8791** (chosen to avoid clashing with common dev servers); to use a different port, change the left-hand number, e.g. `-p 3000:80` (or edit `docker-compose.yml`).
+
+> Self-hosting keeps the "provably local" guarantee intact: the container serves files and nothing else. You can disconnect it from the internet entirely and every tool still works.
+
+---
+
 ## Quick start
 
 ```bash
@@ -56,34 +84,6 @@ npm run preview
 # open the URL, then disconnect your network and use the app.
 # In DevTools → Network, confirm zero requests leave your origin.
 ```
-
----
-
-## Run with Docker
-
-DoxDock ships as a static site, so the container just serves the built files with nginx — it makes **no outbound calls** and can run completely offline / air-gapped. Perfect for self-hosting on your own machine or network.
-
-**With Docker:**
-
-```bash
-# build the image (--load puts it in your local image store; needed when the
-# active buildx builder uses the docker-container driver)
-docker build --load -t doxdock .
-
-# run it (serves on http://localhost:8791)
-docker run --rm -p 8791:80 doxdock
-```
-
-**With Docker Compose:**
-
-```bash
-docker compose up --build
-# then open http://localhost:8791
-```
-
-The image is a multi-stage build (Node builds the site, nginx serves it), so the final image is tiny and contains only static assets — no Node runtime, no source. The app is published on host port **8791** (chosen to avoid clashing with common dev servers); to use a different port, change the left-hand number, e.g. `-p 3000:80` (or edit `docker-compose.yml`).
-
-> Self-hosting keeps the "provably local" guarantee intact: the container serves files and nothing else. You can disconnect it from the internet entirely and every tool still works.
 
 ---
 
