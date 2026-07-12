@@ -6,31 +6,24 @@ import Note from '../../components/Note.jsx'
 import DownloadButton from '../../components/DownloadButton.jsx'
 import Icon from '../../components/Icon.jsx'
 import { useJob } from '../../hooks/useJob.js'
+import { dedupeFiles, skippedNotice } from '../../lib/dedupeFiles.js'
 import { imagesToPdf } from './helpers.js'
 
 export default function ImagesToPdf() {
   const [files, setFiles] = useState([])
+  const [notice, setNotice] = useState('')
   const [pageSize, setPageSize] = useState('fit')
   const [orientation, setOrientation] = useState('auto')
   const [margin, setMargin] = useState(0)
-  const { running, progress, error, setError, result, run, reset } = useJob();
+  const { running, progress, error, result, run, reset } = useJob()
 
   const addFiles = (incoming) => {
-    const duplicate = incoming.find((f) =>
-      files.some(
-        (existing) => existing.name === f.name && existing.size === f.size,
-      ),
-    );
-    if (duplicate) {
-      setError(`Duplicate file: ${duplicate.name}`);
-      return;
-    }
-    setFiles((prev) => [
-      ...prev,
-      ...incoming.filter((f) => f.type.startsWith("image/")),
-    ]);
-    reset();
-  };
+    const images = incoming.filter((f) => f.type.startsWith('image/'))
+    const { unique, skipped } = dedupeFiles(files, images)
+    if (unique.length) setFiles((prev) => [...prev, ...unique])
+    setNotice(skippedNotice(skipped))
+    reset()
+  }
   const move = (from, to) =>
     setFiles((prev) => {
       const next = [...prev]
@@ -65,6 +58,7 @@ export default function ImagesToPdf() {
             onRemove={remove}
             onClear={() => {
               setFiles([])
+              setNotice('')
               reset()
             }}
             icon="image"
@@ -130,6 +124,7 @@ export default function ImagesToPdf() {
         </>
       )}
 
+      {notice && <Note type="warning">{notice}</Note>}
       {running && progress && <Progress value={progress.value} message={progress.message} />}
       {error && <Note type="error" title="Couldn’t create the PDF">{error}</Note>}
       {result && !running && (
